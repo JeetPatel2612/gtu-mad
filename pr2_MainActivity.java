@@ -26,10 +26,9 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Remember.isActivated()){
-                Toast.makeText(MainActivity.this, "Welcome "+U_name.getText().toString(), Toast.LENGTH_SHORT).show();
-                }
-                else{
+                if (Remember.isChecked()){
+                    Toast.makeText(MainActivity.this, "Welcome "+U_name.getText().toString()+"!", Toast.LENGTH_SHORT).show();
+                }else{
                     Toast.makeText(MainActivity.this, "Me:(From future) I've never seen You before!!", Toast.LENGTH_SHORT).show();
                 }
             }
