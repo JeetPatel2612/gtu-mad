@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
                 if (Remember.isChecked()){
                     Toast.makeText(MainActivity.this, "Welcome "+U_name.getText().toString()+"!", Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(MainActivity.this, "Me:(From future) I've never seen You before!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Phone:I've never seen You before!!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
