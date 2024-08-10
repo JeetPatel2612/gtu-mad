@@ -27,7 +27,7 @@ public class second_activity extends AppCompatActivity {
             public void onClick(View view) {
                 String msg = etv.getText().toString();
                 Intent int2 = new Intent();
-                int2.putExtra(msg,"msg");
+                int2.putExtra("msg",msg);
                 setResult(21,int2);
                 finish();
             }
