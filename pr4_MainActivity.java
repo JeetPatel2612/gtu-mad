@@ -1,4 +1,4 @@
-package com.example.pr4;
+package com.ssasit.pr3;
 
 import android.os.Bundle;
 import android.util.Log;
