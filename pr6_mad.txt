@@ -1,0 +1,213 @@
+activity_main.xml:
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+
+
+-------------------------------------
+student_item.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="10dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/sssit1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Name"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/txtaddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address" />
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Button" />
+</LinearLayout>
+
+-------------------------------------------------
+MainActivity.java:
+package com.ssasit.pr6;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Bundle;
+import android.provider.CallLog;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private studentadapter adapter;
+    private list<student> studentlist;
+    
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        RecyclerView=findViewById(R.id.)
+    }
+
+}
+---------------------------------------------------
+student.java:
+package com.ssasit.pr6;
+
+public class student {
+    String name,address;
+    int image;
+
+    public student(String name, String address, int image) {
+        this.name = name;
+        this.address = address;
+        this.image = image;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
+
+}
+
+-------------------------------------------
+studentadapter.java:
+package com.ssasit.pr6;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+public class studentadapter extends RecyclerView.Adapter<studentadapter.studentviewholder> {
+    private Context context;
+    private List<student> studentlist;
+    private onDeleteClickListener onDeleteClickListener;
+
+    public studentadapter(Context context, List<student> studentlist, onDeleteClickListener onDeleteClickListener) {
+        this.context = context;
+        this.studentlist = studentlist;
+        this.onDeleteClickListener = onDeleteClickListener;
+    }
+
+    @NonNull
+    @Override
+    public studentviewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(context).inflate(R.layout.student_item,viewGroup,false);
+        return new studentviewholder(view,onDeleteClickListener);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull studentviewholder studentviewholder, int i) {
+        student student = studentlist.get(i);
+        studentviewholder.nametv.setText((student.getName()));
+        studentviewholder.addresstv.setText((student.getAddress()));
+        studentviewholder.photoid.setImageResource((student.getImage()));
+    }
+
+    @Override
+    public int getItemCount() {
+        return studentlist.size();
+    }
+
+    public interface onDeleteClickListener{
+        void onDeleteClick(int i); // Here, i is position..
+    }
+
+    public class studentviewholder extends RecyclerView.ViewHolder{
+        TextView nametv,addresstv;
+        ImageView photoid;
+        Button deletebutton;
+
+        public studentviewholder(@NonNull View itemView, onDeleteClickListener onDeleteClickListener) {
+            super(itemView);
+            nametv = itemView.findViewById(R.id.txtname);
+            addresstv = itemView.findViewById(R.id.txtaddress);
+            photoid = itemView.findViewById(R.id.img);
+            deletebutton = itemView.findViewById(R.id.btn);
+
+            deletebutton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onDeleteClickListener != null){
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION){
+
+                        }
+                    }
+                }
+            });
+        }
+    }
+}
+
