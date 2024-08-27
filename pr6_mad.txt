@@ -10,6 +10,7 @@ activity_main.xml:
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -61,7 +62,7 @@ student_item.xml:
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="Button" />
+        android:text="Delete" />
 </LinearLayout>
 
 -------------------------------------------------
@@ -69,6 +70,7 @@ MainActivity.java:
 package com.ssasit.pr6;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -76,21 +78,46 @@ import android.provider.CallLog;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private studentadapter adapter;
-    private list<student> studentlist;
-    
-    
+    private List<student> studentlist; // Here, <student> is datatype of list &
+                                       // studentlist is object of list.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        RecyclerView=findViewById(R.id.)
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        studentlist = new ArrayList<>(); // Generate Empty array list, to use during runtime.
+        studentlist.add(new student("Jeet","123, ABC Street, Surat",R.drawable.img1));
+        studentlist.add(new student("WIR","245, BBC Street, Delhi",R.drawable.img2));
+        studentlist.add(new student("GKD","765, HDS Street, Pune",R.drawable.img1));
+        studentlist.add(new student("ABC","356, FSE Street, Rajkot",R.drawable.img2));
+        studentlist.add(new student("PQR","687, YRE Street, Gandhinagar",R.drawable.img1));
+        studentlist.add(new student("XYZ","456, HFD Street, Baroda",R.drawable.img2));
+        studentlist.add(new student("LMA","344, HKG Street, Rajkot",R.drawable.img1));
+        studentlist.add(new student("SDK","234, LTK Street, Mumbai",R.drawable.img2));
+        studentlist.add(new student("KFD","133, PRE Street, Mumbai",R.drawable.img1));
+        studentlist.add(new student("AKR","456, HIT Street, Rajkot",R.drawable.img2));
+
+        adapter = new studentadapter(this,studentlist,this::onDeleteClick);
+        recyclerView.setAdapter(adapter);
+    }
+
+    public void onDeleteClick(int position){
+        studentlist.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 
 }
+
 ---------------------------------------------------
 student.java:
 package com.ssasit.pr6;
@@ -162,14 +189,14 @@ public class studentadapter extends RecyclerView.Adapter<studentadapter.studentv
 
     @NonNull
     @Override
-    public studentviewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(context).inflate(R.layout.student_item,viewGroup,false);
+    public studentviewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {  // Here, viewGroup is parent.
+        View view = LayoutInflater.from(context).inflate(R.layout.student_item,viewGroup,false);    //pass the parent here.
         return new studentviewholder(view,onDeleteClickListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull studentviewholder studentviewholder, int i) {
-        student student = studentlist.get(i);
+    public void onBindViewHolder(@NonNull studentviewholder studentviewholder, int i) { //Here, int i is the position.
+        student student = studentlist.get(i);   // pass the position here.
         studentviewholder.nametv.setText((student.getName()));
         studentviewholder.addresstv.setText((student.getAddress()));
         studentviewholder.photoid.setImageResource((student.getImage()));
@@ -181,7 +208,7 @@ public class studentadapter extends RecyclerView.Adapter<studentadapter.studentv
     }
 
     public interface onDeleteClickListener{
-        void onDeleteClick(int i); // Here, i is position..
+        void onDeleteClick(int i); // Here, i is the position of item, which user wants to be deleted.
     }
 
     public class studentviewholder extends RecyclerView.ViewHolder{
@@ -202,7 +229,7 @@ public class studentadapter extends RecyclerView.Adapter<studentadapter.studentv
                     if (onDeleteClickListener != null){
                         int position = getAdapterPosition();
                         if (position != RecyclerView.NO_POSITION){
-
+                            onDeleteClickListener.onDeleteClick(position);
                         }
                     }
                 }
